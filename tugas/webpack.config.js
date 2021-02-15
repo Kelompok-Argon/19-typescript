@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    tasks: './webapp/src/tasks/main.js',
+    tasks: './webapp/src/tasks/main.ts',
     worker: './webapp/src/worker/main.js',
     performance: './webapp/src/performance/main.js',
   },
