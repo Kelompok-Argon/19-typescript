@@ -24,20 +24,22 @@ if (form && job && assignee && attachment) {
     if (
       !job.nodeValue ||
       !assignee.options[assignee.selectedIndex] ||
-      !attachment?.files[0]
+      !attachment.files
     ) {
       store$.dispatch<any>(errorAction('form isian tidak lengkap!'));
       return;
     };
 
     // register user
-    store$.dispatch<any>(
-      add({
-        job: job.nodeValue,
-        assignee_id: assignee.options[assignee.selectedIndex].value,
-        attachment: attachment?.files[0],
-      })
-    );
+    if( attachment.files ) {
+      store$.dispatch<any>(
+        add({
+          job: job.nodeValue,
+          assignee_id: assignee.options[assignee.selectedIndex].value,
+          attachment: attachment?.files[0],
+        })
+      );
+    }
     
     // reset form
     form.reset();
