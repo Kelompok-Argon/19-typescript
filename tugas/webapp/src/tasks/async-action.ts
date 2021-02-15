@@ -1,4 +1,4 @@
-const {
+import {
   loadingAction,
   errorAction,
   doneAction,
@@ -6,11 +6,17 @@ const {
   tasksLoadedAction,
   workersLoadedAction,
   addedAction,
-} = require('./store');
-const workerSvc = require('./worker.client');
-const taskSvc = require('./task.client');
+} from './store';
+import * as workerSvc from './worker.client';
+import * as taskSvc from './task.client';
 
-exports.add = (data) => async (dispatch) => {
+interface Task {
+  job: string;
+  assignee_id: string;
+  attachment: any;
+}
+
+export const add = (data: Task) => async (dispatch) => {
   dispatch(loadingAction());
   try {
     const task = await taskSvc.add(data);
@@ -20,7 +26,7 @@ exports.add = (data) => async (dispatch) => {
   }
 };
 
-exports.done = (id) => async (dispatch) => {
+export const done = (id: number) => async (dispatch) => {
   dispatch(loadingAction());
   try {
     await taskSvc.done(id);
@@ -30,7 +36,7 @@ exports.done = (id) => async (dispatch) => {
   }
 };
 
-exports.cancel = (id) => async (dispatch) => {
+export const cancel = (id: number) => async (dispatch) => {
   dispatch(loadingAction());
   try {
     await taskSvc.cancel(id);
@@ -40,7 +46,7 @@ exports.cancel = (id) => async (dispatch) => {
   }
 };
 
-exports.getList = async (dispatch) => {
+export const getList = async (dispatch) => {
   dispatch(loadingAction());
   try {
     const tasks = await taskSvc.list();
@@ -50,7 +56,7 @@ exports.getList = async (dispatch) => {
   }
 };
 
-exports.getWorkersList = async (dispatch) => {
+export const getWorkersList = async (dispatch) => {
   dispatch(loadingAction());
   try {
     const workers = await workerSvc.list();

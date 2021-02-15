@@ -1,28 +1,63 @@
-const { SERVICE_BASEURL } = require('./config');
+import { SERVICE_BASEURL } from './config';
 
+export interface Task {
+  id: number;
+  job: string;
+  cancelled: boolean;
+  assignee: Worker;
+  attachment: string;
+  done: boolean;
+}
+
+export interface Worker {
+  id: number;
+  name: string;
+}
+
+interface ActionObject {
+  type: string;
+}
+
+interface ActionObjectError extends ActionObject {
+  payload: string;
+}
+
+interface ActionObjectDone extends ActionObject {
+  payload: number;
+}
+
+interface ActionObjectLoaded extends ActionObject {
+  payload: Task[];
+}
+
+interface ActionObjectWorker extends ActionObject {
+  payload: Worker[];
+}
+
+type ActionObjectCancel = ActionObjectDone;
 // setup state
-const initialState = {
+export const initialState: any = {
   loading: false,
   error: null,
   workers: [],
   tasks: [],
 };
 
-function loading(state) {
+export function loading(state: any) {
   state.loading = true;
   state.error = null;
 }
 
-function error(state, action) {
+export function error(state: any, action: ActionObjectError) {
   state.loading = false;
   state.error = action.payload;
 }
 
-function clearError(state) {
+export function clearError(state: any) {
   state.error = null;
 }
 
-function added(state, action) {
+export function added(state: any, action) {
   const task = action.payload;
   state.tasks.push({
     id: task.id,
@@ -36,7 +71,7 @@ function added(state, action) {
   return state;
 }
 
-function done(state, action) {
+export function done(state: any, action: ActionObjectDone) {
   const idx = state.tasks.findIndex((t) => t.id === action.payload);
   state.tasks[idx].done = true;
   state.loading = false;
@@ -44,7 +79,7 @@ function done(state, action) {
   return state;
 }
 
-function canceled(state, action) {
+export function canceled(state: any, action: ActionObjectCancel) {
   const idx = state.tasks.findIndex((t) => t.id === action.payload);
   state.tasks.splice(idx, 1);
   state.loading = false;
@@ -52,7 +87,7 @@ function canceled(state, action) {
   return state;
 }
 
-function tasksLoaded(state, action) {
+export function tasksLoaded(state: any, action: ActionObjectLoaded) {
   state.tasks = action.payload
     .filter((t) => !t.cancelled)
     .map((task) => ({
@@ -67,7 +102,7 @@ function tasksLoaded(state, action) {
   return state;
 }
 
-function workersLoaded(state, action) {
+export function workersLoaded(state: any, action: ActionObjectWorker) {
   state.workers = action.payload.map((worker) => ({
     id: worker.id,
     name: worker.name,
@@ -76,15 +111,3 @@ function workersLoaded(state, action) {
   state.error = null;
   return state;
 }
-
-module.exports = {
-  initialState,
-  added,
-  done,
-  canceled,
-  tasksLoaded,
-  workersLoaded,
-  error,
-  loading,
-  clearError,
-};

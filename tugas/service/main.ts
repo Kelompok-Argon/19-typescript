@@ -1,14 +1,14 @@
-const orm = require('./lib/orm');
-const storage = require('./lib/storage');
-const kv = require('./lib/kv');
-const bus = require('./lib/bus');
-const { TaskSchema } = require('./tasks/task.model');
-const { WorkerSchema } = require('./worker/worker.model');
-const workerServer = require('./worker/server');
-const tasksServer = require('./tasks/server');
-const performanceServer = require('./performance/server');
+import * as orm from './lib/orm';
+import * as storage from './lib/storage';
+import * as kv from './lib/kv';
+import * as bus from './lib/bus';
+import { TaskSchema } from './tasks/task.model';
+import { WorkerSchema } from './worker/worker.model';
+import * as workerServer from './worker/server';
+import * as tasksServer from './tasks/server';
+import * as performanceServer from './performance/server';
 
-async function init() {
+async function init(): Promise<void> {
   try {
     console.log('connect to database');
     await orm.connect([WorkerSchema, TaskSchema], {
@@ -16,7 +16,7 @@ async function init() {
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: '123456',
       database: 'sanbercode2',
     });
     console.log('database connected');
@@ -30,8 +30,8 @@ async function init() {
       endPoint: '127.0.0.1',
       port: 9000,
       useSSL: false,
-      accessKey: 'local-minio',
-      secretKey: 'local-test-secret',
+      accessKey: 'minioadmin',
+      secretKey: 'minioadmin',
     });
     console.log('object storage connected');
   } catch (err) {
@@ -56,12 +56,12 @@ async function init() {
   }
 }
 
-async function onStop() {
+async function onStop(): Promise<void> {
   bus.close();
   kv.close();
 }
 
-async function main(command) {
+async function main(command: string): Promise<void> {
   switch (command) {
     case 'performance':
       await init();
