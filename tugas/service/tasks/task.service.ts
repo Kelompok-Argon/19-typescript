@@ -33,7 +33,7 @@ export function addSvc(req: IncomingMessage, res: ServerResponse) {
     }
   }
 
-  busboy.on('file', async (fieldname, file, filename, encoding, mimetype) => {
+  busboy.on('file', async (fieldname: string, file: any, filename, encoding, mimetype) => {
     switch (fieldname) {
       case 'attachment':
         try {
@@ -68,7 +68,7 @@ export function addSvc(req: IncomingMessage, res: ServerResponse) {
     }
   });
 
-  busboy.on('field', (fieldname, val) => {
+  busboy.on('field', (fieldname: string, val: string) => {
     switch (fieldname) {
       case 'job':
         data.job = val;

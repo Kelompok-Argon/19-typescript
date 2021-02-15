@@ -1,8 +1,8 @@
-const nats = require('nats');
+import * as nats from 'nats';
 
 let client;
 
-function connect(url, config) {
+export function connect(url: string, config: any): Promise<void> {
   return new Promise((resolve, reject) => {
     client = nats.connect(url, config);
     client.on('connect', () => {
@@ -14,29 +14,21 @@ function connect(url, config) {
   });
 }
 
-function publish(subject, data) {
+export function publish(subject: string, data) {
   client.publish(subject, JSON.stringify(data));
 }
 
-function subscribe(subject, callback) {
+export function subscribe(subject: string, callback) {
   return client.subscribe(subject, callback);
 }
 
-function unsubscribe(sid) {
+export function unsubscribe(sid) {
   return client.unsubscribe(sid);
 }
 
-function close() {
+export function close() {
   if (!client) {
     return;
   }
   client.close();
 }
-
-module.exports = {
-  connect,
-  publish,
-  subscribe,
-  unsubscribe,
-  close,
-};

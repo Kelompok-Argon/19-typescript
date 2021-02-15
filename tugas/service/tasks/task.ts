@@ -26,12 +26,18 @@ interface Task {
   assignee?: Worker;
 }
 
+interface TaskInput {
+  job?: string;
+  attachment?: string;
+  assigneeId?: number;
+}
+
 interface Worker {
   id?: number;
   name?: string;
 }
 
-export async function add(data): Promise<Task> {
+export async function add(data: TaskInput): Promise<Task> {
   if (!data.job || !data.assigneeId) {
     throw ERROR_TASK_DATA_INVALID;
   }

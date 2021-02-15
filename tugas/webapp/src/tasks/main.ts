@@ -10,7 +10,7 @@ import { store$, errorAction, clearErrorAction } from './store';
 import './main.css';
 
 const form = document.getElementById('form') as HTMLFormElement;
-const job = document.getElementById('job');
+const job = document.getElementById('job') as HTMLInputElement;
 const assignee = document.getElementById('assignee') as HTMLSelectElement;
 const attachment = document.getElementById('attachment') as HTMLInputElement;
 const list = document.getElementById('list');
@@ -21,8 +21,9 @@ if (form && job && assignee && attachment) {
   form.onsubmit = (event) => {
     event.preventDefault();
     store$.dispatch(clearErrorAction());
+
     if (
-      !job.nodeValue ||
+      !job.value ||
       !assignee.options[assignee.selectedIndex] ||
       !attachment.files
     ) {
@@ -34,7 +35,7 @@ if (form && job && assignee && attachment) {
     if( attachment.files ) {
       store$.dispatch<any>(
         add({
-          job: job.nodeValue,
+          job: job.value,
           assignee_id: assignee.options[assignee.selectedIndex].value,
           attachment: attachment?.files[0],
         })
