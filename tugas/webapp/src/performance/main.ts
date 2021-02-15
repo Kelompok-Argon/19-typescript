@@ -1,7 +1,6 @@
-const { summary } = require('./async-action');
-const { store$ } = require('./store');
-
-require('./main.css');
+import { summary } from './async-action';
+import { store$ } from './store';
+import './main.css';
 
 const workers = document.getElementById('workers');
 const tasks = document.getElementById('tasks');
@@ -11,6 +10,9 @@ const refresh = document.getElementById('refresh');
 const errorTxt = document.getElementById('error-text');
 const loadingTxt = document.getElementById('loading-text');
 
+// if (errorTxt && loadingTxt && refresh && workers && tasks && done &&){
+
+// }
 // presentation layer
 store$.subscribe(() => {
   const state = store$.getState();
@@ -19,10 +21,10 @@ store$.subscribe(() => {
 const state = store$.getState();
 render(state);
 
-store$.dispatch(summary);
+store$.dispatch<any>(summary);
 
 refresh.onclick = () => {
-  store$.dispatch(summary);
+  store$.dispatch<any>(summary);
 };
 
 function render(state) {
@@ -33,9 +35,9 @@ function render(state) {
     errorTxt.textContent = '';
   }
   if (state.loading) {
-    loadingTxt.style = '';
+    loadingTxt.style.display = '';
   } else {
-    loadingTxt.style = 'display:none;';
+    loadingTxt.style.display = 'none';
   }
 
   // render list of worker

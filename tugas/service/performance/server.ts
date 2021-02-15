@@ -1,20 +1,20 @@
-const { createServer } = require('http');
-const url = require('url');
-const { stdout } = require('process');
-const { summarySvc } = require('./performance.service');
-const agg = require('./performance.agg');
+import { createServer, IncomingMessage, ServerResponse } from 'http';
+import * as url from 'url';
+import { stdout } from 'process';
+import { summarySvc } from './performance.service';
+import * as agg from './performance.agg';
 
-let server;
+let server: any;
 
-function run(callback) {
-  server = createServer((req, res) => {
+export function run(callback: any) {
+  server = createServer((req: IncomingMessage, res: ServerResponse) => {
     // cors
     const aborted = cors(req, res);
     if (aborted) {
       return;
     }
 
-    function respond(statusCode, message) {
+    function respond(statusCode?: any, message?: any) {
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
@@ -27,11 +27,11 @@ function run(callback) {
           if (req.method === 'GET') {
             return summarySvc(req, res);
           } else {
-            respond(404);
+            respond(404, "not found");
           }
           break;
         default:
-          respond(404);
+          respond(404, "not found");
       }
     } catch (err) {
       respond(500, 'unkown server error');
@@ -56,7 +56,7 @@ function run(callback) {
   });
 }
 
-function cors(req, res) {
+export function cors(req: any, res: any) {
   // handle preflight request
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -70,14 +70,8 @@ function cors(req, res) {
   }
 }
 
-function stop() {
+export function stop() {
   if (server) {
     server.close();
   }
 }
-
-module.exports = {
-  run,
-  stop,
-  cors,
-};

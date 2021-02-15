@@ -12,11 +12,11 @@ async function init() {
   try {
     console.log('connect to database');
     await orm.connect([WorkerSchema, TaskSchema], {
-      type: 'postgres',
+      type: 'mysql',
       host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '123456',
+      port: 3306,
+      username: 'root',
+      password: '',
       database: 'sanbercode2',
     });
     console.log('database connected');

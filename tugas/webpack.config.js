@@ -4,7 +4,7 @@ module.exports = {
   entry: {
     tasks: './webapp/src/tasks/main.js',
     worker: './webapp/src/worker/main.js',
-    performance: './webapp/src/performance/main.js',
+    performance: './webapp/src/performance/main.ts',
   },
   output: {
     path: path.resolve(__dirname, 'www'),
@@ -16,7 +16,7 @@ module.exports = {
     port: 7000,
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.css'],
   },
   module: {
     rules: [

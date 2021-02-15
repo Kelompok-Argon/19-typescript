@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha",
-    "svc:start": "node .",
+    "svc:start": "ts-node --project service/tsconfig.json .",
     "svc:dev": "nodemon .",
     "service": "ts-node --project service/tsconfig.json .",
     "service:dev": "nodemon --config service/nodemon.json",
