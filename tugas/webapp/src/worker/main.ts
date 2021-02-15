@@ -1,7 +1,7 @@
 import { register, getList, remove } from './async-action';
 import { store$, errorAction, clearErrorAction } from './store';
 
-require('./main.css');
+import'./main.css';
 
 const form = document.getElementById('form') as HTMLFormElement; 
 const nameWorker = document.getElementById('name') as HTMLInputElement;
@@ -13,17 +13,18 @@ const list = document.getElementById('list');
 const errorTxt = document.getElementById('error-text');
 const loadingTxt = document.getElementById('loading-text');
 
-if (form && age && photo && bio && address)
-  form.onsubmit = (event) => {
+if (form && age && photo && bio && address){
+  form.onsubmit = (event): void => {
     event.preventDefault();
     store$.dispatch<any>(clearErrorAction());
-    if (
-      !nameWorker?.nodeValue ||
-      !age?.nodeValue ||
-      !photo?.files?[0] ||
-      !bio?.nodeValue ||
-      !address?.nodeValue
-    ) {
+    // console.log({
+    //     name: nameWorker?.value,
+    //     photo: photo?.files,
+    //     age: age?.value,
+    //     bio: bio?.value,
+    //     address: address?.value,
+    //   })
+    if (!nameWorker?.value || !age?.value || !photo?.files || !bio?.value ||!address?.value ) {
       store$.dispatch(errorAction('form isian tidak lengkap!'));
       return;
     }
@@ -31,18 +32,20 @@ if (form && age && photo && bio && address)
     // register user
     store$.dispatch<any>(
       register({
-        name: nameWorker?.nodeValue,
-        photo: photo?.files?[0],
-        age: age?.nodeValue,
-        bio: bio?.nodeValue,
-        address: address?.nodeValue,
+        name: nameWorker?.value,
+        photo: photo?.files,
+        age: age?.value,
+        bio: bio?.value,
+        address: address?.value,
       })
     );
 
     // reset form
     form.reset();
-  };
+  }
+} else {
 
+}
 // presentation layer
 store$.subscribe(() => {
   const state = store$.getState();
@@ -53,7 +56,7 @@ render(state);
 
 store$.dispatch<any>(getList);
 
-function render(state) {
+function render(state: any) {
   // render error
   if (errorTxt && loadingTxt) {
     if (state.error) {

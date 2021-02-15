@@ -8,7 +8,7 @@ import {
   infoSvc,
   getPhotoSvc,
 } from './worker.service';
-import {IncomingMessage, ServerResponse} from 'http'
+import { IncomingMessage, ServerResponse } from 'http';
 
 let server: any;
 
@@ -20,7 +20,7 @@ export function run(callback: () => any): void {
       return;
     }
 
-    function respond(statusCode: number, message): void {
+    function respond(statusCode: number, message: string): void {
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
@@ -28,6 +28,7 @@ export function run(callback: () => any): void {
 
     try {
       const uri = url.parse(req.url, true);
+      console.log(uri.pathname);
       switch (uri.pathname) {
         case '/register':
           if (req.method === 'POST') {
@@ -104,4 +105,3 @@ export function stop(): void {
     server.close();
   }
 }
-

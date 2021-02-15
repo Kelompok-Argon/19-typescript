@@ -1,4 +1,4 @@
-import Busboy from 'busboy';
+import * as Busboy from 'busboy';
 import * as url from 'url';
 import mime from 'mime-types';
 import { Writable } from 'stream';
@@ -14,7 +14,7 @@ import { saveFile, readFile, ERROR_FILE_NOT_FOUND } from '../lib/storage';
 import {IncomingMessage, ServerResponse } from 'http'
 
 export function registerSvc(req: IncomingMessage, res: ServerResponse): void {
-  const busboy: any = new Busboy({ headers: req.headers });
+  const busboy = new Busboy({ headers: req.headers });
 
   const data: any = {
     name: '',
@@ -34,7 +34,7 @@ export function registerSvc(req: IncomingMessage, res: ServerResponse): void {
     }
   }
 
-  busboy.on('file', async (fieldname: string, file: any, filename: string, encoding: any, mimetype: any) => {
+  busboy.on('file', async (fieldname: string, file: any, filename: any, encoding: any, mimetype: any) => {
     switch (fieldname) {
       case 'photo':
         try {
@@ -69,13 +69,13 @@ export function registerSvc(req: IncomingMessage, res: ServerResponse): void {
     }
   });
 
-  busboy.on('field', (fieldname, val) => {
+  busboy.on('field', (fieldname: string, val: string) => {
     if (['name', 'age', 'bio', 'address'].includes(fieldname)) {
       data[fieldname] = val;
     }
   });
 
-  busboy.on('finish', async () => {
+  busboy.on('finish', (): void => {
     finished = true;
   });
 
