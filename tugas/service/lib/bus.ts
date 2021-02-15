@@ -14,15 +14,15 @@ export function connect(url?: string, config?: any): Promise<void> {
   });
 }
 
-export function publish(subject: string, data) {
+export function publish(subject: string, data: any) {
   client.publish(subject, JSON.stringify(data));
 }
 
-export function subscribe(subject: string, callback) {
+export function subscribe(subject: string, callback: any) {
   return client.subscribe(subject, callback);
 }
 
-export function unsubscribe(sid) {
+export function unsubscribe(sid: any) {
   return client.unsubscribe(sid);
 }
 

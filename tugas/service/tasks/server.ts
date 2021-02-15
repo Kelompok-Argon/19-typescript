@@ -81,7 +81,7 @@ export function run(callback) {
   });
 }
 
-export function cors(req, res) {
+export function cors(req: IncomingMessage, res: ServerResponse) {
   // handle preflight request
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');

@@ -18,6 +18,8 @@
   "devDependencies": {
     "@types/busboy": "^0.2.3",
     "@types/mime-types": "^2.1.0",
+    "@types/minio": "^7.0.7",
+    "@types/redis": "^2.8.28",
     "css-loader": "^5.0.1",
     "eslint": "^7.19.0",
     "eslint-config-google": "^0.14.0",

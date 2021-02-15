@@ -1,6 +1,6 @@
 import * as Busboy from 'busboy';
 import * as url from 'url';
-import mime from 'mime-types';
+import * as mime from 'mime-types';
 import { Writable } from 'stream';
 import {
   register,
@@ -163,7 +163,7 @@ export async function getPhotoSvc(req: IncomingMessage, res: ServerResponse): Pr
   }
   try {
     const objectRead = await readFile(objectName);
-    res.setHeader('Content-Type', mime.lookup(objectName));
+    res.setHeader('Content-Type', mime.lookup(objectName) as string);
     res.statusCode = 200;
     objectRead.pipe(res);
   } catch (err) {

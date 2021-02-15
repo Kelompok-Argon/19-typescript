@@ -1,4 +1,4 @@
-import mime from 'mime-types';
+import * as mime from 'mime-types';
 import { Client } from 'minio';
 
 export const ERROR_REQUIRE_OBJECT_NAME = 'error wajib memasukan nama objek';
