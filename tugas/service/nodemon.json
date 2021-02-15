@@ -1,6 +1,6 @@
 {
   "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules"],
   "watch": ["service"],
-  "exec": "npm run service worker",
+  "exec": "npm run service -- worker",
   "ext": "ts"
 }

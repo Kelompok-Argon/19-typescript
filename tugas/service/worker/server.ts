@@ -1,25 +1,26 @@
-const { createServer } = require('http');
-const url = require('url');
-const { stdout } = require('process');
-const {
+import { createServer } from 'http';
+import * as url from 'url';
+import { stdout } from 'process';
+import {
   listSvc,
   registerSvc,
   removeSvc,
   infoSvc,
   getPhotoSvc,
-} = require('./worker.service');
+} from './worker.service';
+import {IncomingMessage, ServerResponse} from 'http'
 
-let server;
+let server: any;
 
-function run(callback) {
-  server = createServer((req, res) => {
+export function run(callback: () => any): void {
+  server = createServer((req: IncomingMessage, res: ServerResponse) => {
     // cors
     const aborted = cors(req, res);
     if (aborted) {
       return;
     }
 
-    function respond(statusCode, message) {
+    function respond(statusCode: number, message): void {
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
@@ -32,35 +33,35 @@ function run(callback) {
           if (req.method === 'POST') {
             return registerSvc(req, res);
           } else {
-            respond(404);
+            respond(404, 'Method not found');
           }
           break;
         case '/list':
           if (req.method === 'GET') {
             return listSvc(req, res);
           } else {
-            respond(404);
+            respond(404, 'Method not found');
           }
           break;
         case '/info':
           if (req.method === 'GET') {
             return infoSvc(req, res);
           } else {
-            respond(404);
+            respond(404, 'Method not found');
           }
           break;
         case '/remove':
           if (req.method === 'DELETE') {
             return removeSvc(req, res);
           } else {
-            respond(404);
+            respond(404, 'Method not found');
           }
           break;
         default:
           if (/^\/photo\/\w+/.test(uri.pathname)) {
             return getPhotoSvc(req, res);
           }
-          respond(404);
+          respond(404, 'Method not found');
       }
     } catch (err) {
       respond(500, 'unkown server error');
@@ -68,20 +69,20 @@ function run(callback) {
   });
 
   // stop handler
-  server.on('close', () => {
+  server.on('close', (): void => {
     if (callback) {
       callback();
     }
   });
 
   // run server
-  const PORT = 7001;
-  server.listen(PORT, () => {
+  const PORT = 7009;
+  server.listen(PORT, (): void => {
     stdout.write(`🚀 worker service listening on port ${PORT}\n`);
   });
 }
 
-function cors(req, res) {
+export function cors(req: IncomingMessage, res: ServerResponse) {
   // handle preflight request
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -98,14 +99,9 @@ function cors(req, res) {
   }
 }
 
-function stop() {
+export function stop(): void {
   if (server) {
     server.close();
   }
 }
 
-module.exports = {
-  run,
-  stop,
-  cors,
-};
