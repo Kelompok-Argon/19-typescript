@@ -25,7 +25,7 @@ if (form && job && assignee && attachment) {
     if (
       !job.value ||
       !assignee.options[assignee.selectedIndex] ||
-      !attachment.files
+      !attachment.files?.item(0)
     ) {
       store$.dispatch<any>(errorAction('form isian tidak lengkap!'));
       return;

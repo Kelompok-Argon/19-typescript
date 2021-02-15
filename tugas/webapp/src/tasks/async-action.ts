@@ -10,7 +10,13 @@ import {
 import * as workerSvc from './worker.client';
 import * as taskSvc from './task.client';
 
-export const add = (data) => async (dispatch) => {
+interface Task {
+  job: string;
+  assignee_id: string;
+  attachment: any;
+}
+
+export const add = (data: Task) => async (dispatch) => {
   dispatch(loadingAction());
   try {
     const task = await taskSvc.add(data);
