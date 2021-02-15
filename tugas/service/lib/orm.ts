@@ -1,6 +1,6 @@
-const { createConnection } = require('typeorm');
+import { createConnection } from 'typeorm';
 
-function connect(entities, config) {
+export function connect(entities: any, config: any) {
   return createConnection({
     ...config,
     synchronize: true,
@@ -9,6 +9,3 @@ function connect(entities, config) {
   });
 }
 
-module.exports = {
-  connect,
-};

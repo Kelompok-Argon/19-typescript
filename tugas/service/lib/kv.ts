@@ -3,7 +3,7 @@ import { promisify } from 'util';
 
 let client;
 
-export function connect(options: any): Promise<void> {
+export function connect(options?: any): Promise<void> {
   return new Promise((resolve, reject) => {
     client = redis.createClient(options);
     client.on('connect', () => {

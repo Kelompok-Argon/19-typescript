@@ -1,6 +1,6 @@
 import * as http from 'http';
 
-const WORKER_HOST = 'http://localhost:7001';
+const WORKER_HOST = 'http://localhost:7009';
 const ERROR_WORKER_NOT_FOUND = 'pekerja tidak ditemukan';
 
 export function info(id: number): Promise<string> {
