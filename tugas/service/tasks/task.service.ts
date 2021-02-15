@@ -1,18 +1,19 @@
-const Busboy = require('busboy');
-const url = require('url');
-const mime = require('mime-types');
-const { Writable } = require('stream');
-const {
+import Busboy from 'busboy';
+import * as url from 'url';
+import mime from 'mime-types';
+import { Writable } from 'stream';
+import {
   add,
   cancel,
   done,
   list,
   ERROR_TASK_DATA_INVALID,
   ERROR_TASK_NOT_FOUND,
-} = require('./task');
-const { saveFile, readFile, ERROR_FILE_NOT_FOUND } = require('../lib/storage');
+} from './task';
+import { saveFile, readFile, ERROR_FILE_NOT_FOUND } from '../lib/storage';
+import { IncomingMessage, ServerResponse } from 'http';
 
-function addSvc(req, res) {
+export function addSvc(req: IncomingMessage, res: ServerResponse) {
   const busboy = new Busboy({ headers: req.headers });
 
   const data = {
@@ -88,7 +89,7 @@ function addSvc(req, res) {
   req.pipe(busboy);
 }
 
-async function listSvc(req, res) {
+export async function listSvc(req: IncomingMessage, res: ServerResponse) {
   try {
     const tasks = await list();
     res.setHeader('content-type', 'application/json');
@@ -101,9 +102,9 @@ async function listSvc(req, res) {
   }
 }
 
-async function doneSvc(req, res) {
+export async function doneSvc(req: IncomingMessage, res: ServerResponse) {
   const uri = url.parse(req.url, true);
-  const id = uri.query['id'];
+  const id = uri.query['id'] as string;
   if (!id) {
     res.statusCode = 401;
     res.write('parameter id tidak ditemukan');
@@ -111,7 +112,7 @@ async function doneSvc(req, res) {
     return;
   }
   try {
-    const task = await done(id);
+    const task = await done(parseInt(id, 10));
     res.setHeader('content-type', 'application/json');
     res.statusCode = 200;
     res.write(JSON.stringify(task));
@@ -129,9 +130,9 @@ async function doneSvc(req, res) {
   }
 }
 
-async function cancelSvc(req, res) {
+export async function cancelSvc(req: IncomingMessage, res: ServerResponse) {
   const uri = url.parse(req.url, true);
-  const id = uri.query['id'];
+  const id = uri.query['id'] as string;
   if (!id) {
     res.statusCode = 401;
     res.write('parameter id tidak ditemukan');
@@ -139,7 +140,7 @@ async function cancelSvc(req, res) {
     return;
   }
   try {
-    const task = await cancel(id);
+    const task = await cancel(parseInt(id, 10));
     res.setHeader('content-type', 'application/json');
     res.statusCode = 200;
     res.write(JSON.stringify(task));
@@ -157,7 +158,7 @@ async function cancelSvc(req, res) {
   }
 }
 
-async function getAttachmentSvc(req, res) {
+export async function getAttachmentSvc(req: IncomingMessage, res: ServerResponse) {
   const uri = url.parse(req.url, true);
   const objectName = uri.pathname.replace('/attachment/', '');
   if (!objectName) {
@@ -183,11 +184,3 @@ async function getAttachmentSvc(req, res) {
     return;
   }
 }
-
-module.exports = {
-  listSvc,
-  addSvc,
-  doneSvc,
-  cancelSvc,
-  getAttachmentSvc,
-};

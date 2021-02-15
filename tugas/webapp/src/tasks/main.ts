@@ -24,7 +24,7 @@ if (form && job && assignee && attachment) {
     if (
       !job.nodeValue ||
       !assignee.options[assignee.selectedIndex] ||
-      !attachment.files[0]
+      !attachment?.files[0]
     ) {
       store$.dispatch<any>(errorAction('form isian tidak lengkap!'));
       return;
@@ -35,7 +35,7 @@ if (form && job && assignee && attachment) {
       add({
         job: job.nodeValue,
         assignee_id: assignee.options[assignee.selectedIndex].value,
-        attachment: attachment.files[0],
+        attachment: attachment?.files[0],
       })
     );
     
@@ -67,9 +67,9 @@ function render(state) {
       errorTxt.textContent = '';
     }
     if (state.loading) {
-      loadingTxt.style = '';
+      loadingTxt.style.display = '';
     } else {
-      loadingTxt.style = 'display:none;';
+      loadingTxt.style.display = 'none';
     }
   }
 
