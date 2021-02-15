@@ -16,6 +16,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/busboy": "^0.2.3",
+    "@types/mime-types": "^2.1.0",
     "css-loader": "^5.0.1",
     "eslint": "^7.19.0",
     "eslint-config-google": "^0.14.0",
