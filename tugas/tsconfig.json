@@ -4,8 +4,9 @@
     "sourceMap": true,
     "allowJs": true,
     "target": "ES6",
-    //"strictNullChecks": true,
-    "moduleResolution": "Node"
+    "strictNullChecks": true,
+    "moduleResolution": "Node",
+    
   },
   "include": ["./webapp/src/**/*"]
 }

@@ -22,27 +22,32 @@ const state = store$.getState();
 render(state);
 
 store$.dispatch<any>(summary);
-
-refresh.onclick = () => {
-  store$.dispatch<any>(summary);
-};
+if( refresh ) {
+  refresh.onclick = () => {
+    store$.dispatch<any>(summary);
+  };
+}
 
 function render(state) {
   // render error
-  if (state.error) {
-    errorTxt.textContent = state.error.toString();
-  } else {
-    errorTxt.textContent = '';
-  }
-  if (state.loading) {
-    loadingTxt.style.display = '';
-  } else {
-    loadingTxt.style.display = 'none';
+  if( errorTxt && loadingTxt ) {
+    if (state.error) {
+      errorTxt.textContent = state.error.toString();
+    } else {
+      errorTxt.textContent = '';
+    }
+    if (state.loading) {
+      loadingTxt.style.display = '';
+    } else {
+      loadingTxt.style.display = 'none';
+    }
   }
 
   // render list of worker
-  workers.innerText = state.summary.total_worker.toString();
-  tasks.innerText = state.summary.total_task.toString();
-  done.innerText = state.summary.task_done.toString();
-  canceled.innerText = state.summary.task_cancelled.toString();
+  if( workers && tasks && done && canceled ) {
+    workers.innerText = state.summary.total_worker.toString();
+    tasks.innerText = state.summary.total_task.toString();
+    done.innerText = state.summary.task_done.toString();
+    canceled.innerText = state.summary.task_cancelled.toString();
+  }
 }

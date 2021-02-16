@@ -1,7 +1,29 @@
-const { EntitySchema } = require('typeorm');
+import { EntitySchema } from 'typeorm';
 
-class Worker {
-  constructor(id, name, age, bio, address, photo) {
+export interface WorkerInterface {
+  id: number;
+  name: string;
+  age: any;
+  bio: string;
+  address: string;
+  photo: string;
+}
+
+export class Worker implements WorkerInterface {
+  public id: number;
+  public name: string;
+  public age: any;
+  public bio: string;
+  public address: string;
+  public photo: string;
+  constructor(
+    id: number,
+    name: string,
+    age: any,
+    bio: string,
+    address: string,
+    photo: string
+  ) {
     this.id = id;
     this.name = name;
     this.age = age;
@@ -11,7 +33,7 @@ class Worker {
   }
 }
 
-const WorkerSchema = new EntitySchema({
+export const WorkerSchema = new EntitySchema({
   name: 'Worker',
   target: Worker,
   tableName: 'workers',
@@ -40,8 +62,3 @@ const WorkerSchema = new EntitySchema({
     },
   },
 });
-
-module.exports = {
-  Worker,
-  WorkerSchema,
-};

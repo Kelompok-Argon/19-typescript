@@ -1,23 +1,24 @@
-const {
+import {
   loadingAction,
   errorAction,
   registeredAction,
   removedAction,
   workersLoadedAction,
-} = require('./store');
-const workerSvc = require('./worker.client');
+} from './store';
+import * as workerSvc from './worker.client';
+import {Worker} from './reducer'
 
-exports.register = (data) => async (dispatch) => {
+export const register = (data: object) => async (dispatch: any) => {
   dispatch(loadingAction());
   try {
-    const worker = await workerSvc.register(data);
+    const worker = await workerSvc.register(data) as Worker;
     dispatch(registeredAction(worker));
   } catch (err) {
-    dispatch(errorAction(`gagal mendaftarkan ${data.name}`));
+    dispatch(errorAction(`gagal mendaftarkan ${data['name']}`));
   }
 };
 
-exports.remove = (id) => async (dispatch) => {
+export const remove = (id: number) => async (dispatch: any) => {
   dispatch(loadingAction());
   try {
     await workerSvc.remove(id);
@@ -27,7 +28,7 @@ exports.remove = (id) => async (dispatch) => {
   }
 };
 
-exports.getList = async (dispatch) => {
+export const getList = async (dispatch: any) => {
   dispatch(loadingAction());
   try {
     const workers = await workerSvc.list();

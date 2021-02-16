@@ -1,10 +1,10 @@
 export interface RequestOption {
-  method: 'GET' | 'POST' | 'PUT' | 'OPTION' | 'DELETE';
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' |'OPTION';
   body?: any;
   customConf?: any;
 }
 
-async function client(endpoint: string, json, options: RequestOption) {
+export async function client(endpoint: string, json, options: RequestOption) {
   let headers;
   if (json) {
     headers = { 'Content-Type': 'application/json' };
@@ -15,7 +15,7 @@ async function client(endpoint: string, json, options: RequestOption) {
     ...options?.customConf,
     headers: {
       ...headers,
-      ...options?.customConf.headers,
+      ...options?.customConf?.headers,
     },
   };
 
@@ -36,7 +36,7 @@ async function client(endpoint: string, json, options: RequestOption) {
     const response = await window.fetch(endpoint, config);
     data = await response.json();
     if (!response.ok) {
-      throw new Error(data?.statusText ?? 'failed request to API');
+      throw new Error(data?.statusText ?? 'Gagal request ke api');
     }
 
     return data;
@@ -45,20 +45,18 @@ async function client(endpoint: string, json, options: RequestOption) {
   }
 }
 
-client.get = (endpoint: string, customConf: any = {}): Promise<any> => {
+client.get = (endpoint: string, customConf = {}) => {
   return client(endpoint, true, { method: 'GET', ...customConf });
 };
 
-client.post = <T>(endpoint, body, json, customConf = {}): Promise<T> => {
+client.post = (endpoint: string, body: any, json?, customConf = {}) => {
   return client(endpoint, json, { method: 'POST', body, ...customConf });
 };
 
-client.put = (endpoint, body, json, customConf = {}): Promise<any> => {
+client.put = (endpoint: string, body?: any, json?, customConf = {}) => {
   return client(endpoint, json, { method: 'PUT', body, ...customConf });
 };
 
-client.del = (endpoint, body, json, customConf = {}): Promise<any> => {
+client.del = (endpoint: string, body?: any, json?, customConf = {}) => {
   return client(endpoint, json, { method: 'DELETE', body, ...customConf });
 };
-
-export { client };

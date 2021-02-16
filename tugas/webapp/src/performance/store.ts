@@ -15,7 +15,7 @@ enum ActionType {
 }
 
 export const errorAction = createAction<string>(ActionType.ERROR);
-export const loadingAction = createAction<boolean>(ActionType.LOADING);
+export const loadingAction = createAction(ActionType.LOADING);
 export const summaryLoadedAction = createAction<Performance>(ActionType.LOADED);
 
 const performReducer = createReducer(initialState, {
