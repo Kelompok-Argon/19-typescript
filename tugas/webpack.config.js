@@ -2,9 +2,9 @@ const path = require('path');
 
 module.exports = {
   entry: {
+    performance: './webapp/src/performance/main.ts',
     tasks: './webapp/src/tasks/main.ts',
     worker: './webapp/src/worker/main.ts',
-    performance: './webapp/src/performance/main.js',
   },
   output: {
     path: path.resolve(__dirname, 'www'),
@@ -16,7 +16,7 @@ module.exports = {
     port: 7000,
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.css'],
   },
   module: {
     rules: [

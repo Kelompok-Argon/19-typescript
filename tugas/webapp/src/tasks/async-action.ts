@@ -9,17 +9,18 @@ import {
 } from './store';
 import * as workerSvc from './worker.client';
 import * as taskSvc from './task.client';
+import { Task, Worker } from './reducer';
 
-interface Task {
+interface TaskRaw {
   job: string;
   assignee_id: string;
   attachment: any;
 }
 
-export const add = (data: Task) => async (dispatch) => {
+export const add = (data: TaskRaw) => async (dispatch) => {
   dispatch(loadingAction());
   try {
-    const task = await taskSvc.add(data);
+    const task = await taskSvc.add(data) as Task;
     dispatch(addedAction(task));
   } catch (err) {
     dispatch(errorAction(`gagal menambahkan ${data.job}`));
