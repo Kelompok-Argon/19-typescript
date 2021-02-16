@@ -6,11 +6,12 @@ import {
   workersLoadedAction,
 } from './store';
 import * as workerSvc from './worker.client';
+import {Worker} from './reducer'
 
 export const register = (data: object) => async (dispatch: any) => {
   dispatch(loadingAction());
   try {
-    const worker = await workerSvc.register(data);
+    const worker = await workerSvc.register(data) as Worker;
     dispatch(registeredAction(worker));
   } catch (err) {
     dispatch(errorAction(`gagal mendaftarkan ${data['name']}`));

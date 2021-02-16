@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./www",
+    "outDir": "./webapp/www",
     "sourceMap": true,
     "allowJs": true,
     "target": "ES6",
